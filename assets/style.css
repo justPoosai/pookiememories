@@ -215,31 +215,31 @@ h1 {
 }
 
 #Czechy {
-  background-image: url(./images/Czechy/Czechy1.jpg);
+  background-image: url(images/Czechy/Czechy1.jpg);
 }
 
 #Lublin {
-  background-image: url(./images/Lublin/PlacLitewski/PlacLitewski12.jpg);
+  background-image: url(images/Lublin/PlacLitewski/PlacLitewski12.jpg);
 }
 
 #DSP {
-  background-image: url(./images/DSP/DSP7.jpg);
+  background-image: url(images/DSP/DSP7.jpg);
 }
 
 #Unia {
-  background-image: url(./images/Lublin/Lublin3.jpg);
+  background-image: url(images/Lublin/Lublin3.jpg);
 }
 
 #Jadwiga {
-  background-image: url(./images/Lublin/Lublin5.jpg);
+  background-image: url(images/Lublin/Lublin5.jpg);
 }
 
 #TechniSchools {
-  background-image: url(./images/TechniSchools/techni9.jpg);
+  background-image: url(images/TechniSchools/techni9.jpg);
 }
 
 #URBEX {
-  background-image: url(./images/URBEX/Urbex335.jpg);
+  background-image: url(images/URBEX/Urbex335.jpg);
 }
 
 .card:not(:first-child) {
