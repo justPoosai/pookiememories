@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TechniSchools - MEMORIES</title>
+    <link rel="shortcut icon" href="./assets/technischoolslogo.webp" />
+    <style>
+
+      @keyframes slide {
+        0% {
+          transform: translateX(-25%);
+        }
+        100% {
+          transform: translateX(25%);
+        }
+      }
+
+      @keyframes blur {
+        0% {
+          filter: blur(0px);
+        }
+        50% {
+          filter: blur(15px);
+        }
+        100% {
+          filter: blur(0px);
+        }
+      }
+
+      .bg {
+        animation: slide 3s ease-in-out infinite alternate;
+        background-image: linear-gradient(
+          -60deg,
+          rgb(61, 52, 222) 50%,
+          rgba(116, 26, 213, 0.668) 50%
+        );
+        bottom: 0;
+        left: -50%;
+        opacity: 0.5;
+        position: fixed;
+        right: -50%;
+        top: 0;
+        z-index: -1;
+      }
+
+      .bg2 {
+        animation-direction: alternate-reverse;
+        animation-duration: 4s;
+      }
+
+      .bg3 {
+        animation-duration: 5s;
+      }
+
+      .grid {
+        column-count: 4;
+        column-gap: 20px;
+        z-index: 1;
+      }
+
+      .grid img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        transition: 0.5s;
+        display: block;
+        margin-bottom: 15px;
+        break-inside: avoid;
+        border-radius: 0px;
+        /* filter: blur(3px); */
+      }
+
+      .grid video {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        display: block;
+        margin-bottom: 15px;
+        break-inside: avoid;
+      }
+
+      .grid img:hover {
+        /* filter: blur(0px); */
+        /* transform: scale(1.05); */
+        position: relative;
+        z-index: 2; /* Set a higher z-index on hover */
+        border-radius: 25px;
+        transition: 0.5s;
+      }
+
+      /* canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: -1; Set a lower z-index for the canvas
+            } */
+    </style>
+  </head>
+  <body>
+    <div class="grid">
+      <a href="./assets/images/TechniSchools/techni1.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni1.jpg" alt="techni1"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni2.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni2.jpg" alt="techni2"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni3.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni3.jpg" alt="techni3"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni4.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni4.jpg" alt="techni4"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni5.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni5.jpg" alt="techni5"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni6.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni6.jpg" alt="techni6"
+      /></a>
+
+      <!-- <a href="./assets/images/TechniSchools/techni7.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni7.jpg" alt="techni7"
+      /></a> -->
+      
+      <a href="./assets/images/TechniSchools/techni8.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni8.jpg" alt="techni8"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni9.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni9.jpg" alt="techni9"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni10.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni10.jpg" alt="techni10"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni11.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni11.jpg" alt="techni11"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni12.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni12.jpg" alt="techni12"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni13.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni13.jpg" alt="techni13"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni14.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni14.jpg" alt="techni14"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni15.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni15.jpg" alt="techni15"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni16.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni16.jpg" alt="techni16"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni17.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni17.jpg" alt="techni17"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni18.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni18.jpg" alt="techni18"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni19.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni19.jpg" alt="techni19"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni20.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni20.jpg" alt="techni20"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni21.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni21.jpg" alt="techni21"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni22.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni22.jpg" alt="techni22"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni23.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni23.jpg" alt="techni23"
+      /></a>
+      <a href="./assets/images/TechniSchools/techni24.jpg" target="_blank"
+        ><img src="./assets/images/TechniSchools/techni24.jpg" alt="techni24"
+      /></a>
+    </div>
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
+    <!-- <canvas>
+            
+    </canvas> -->
+    <!-- <script>
+        // Initialising the canvas
+        var canvas = document.querySelector('canvas'),
+            ctx = canvas.getContext('2d');
+
+        // Setting the width and height of the canvas
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Setting up the letters
+        var letters = '01';
+        letters = letters.split('');
+
+        // Setting up the columns
+        var fontSize = 10,
+            columns = canvas.width / fontSize;
+
+        // Setting up the drops
+        var drops = [];
+        for (var i = 0; i < columns; i++) {
+        drops[i] = 1;
+        }
+
+        // Setting up the draw function
+        function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, .1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < drops.length; i++) {
+            var text = letters[Math.floor(Math.random() * letters.length)];
+            ctx.fillStyle = '#14f';
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            drops[i]++;
+            if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
+            drops[i] = 0;
+            }
+        }
+        }
+
+        // Loop the animation
+        setInterval(draw, 33);
+    </script> -->
+  </body>
+</html>

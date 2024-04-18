@@ -1,0 +1,253 @@
+class Window {
+    /**
+     * @typedef {Object} WindowProperties
+     * @property {string} [title] - Window title (optional). Defaults to "Default".
+     * @property {string} [id] - Css id of window div (optional). Defaults to "window{i}".
+     * @property {string} [content] - Html content of window (optional).
+     * @property {number} [width] - Window width (optional). Defaults to 500px.
+     * @property {number} [height] - Window height (optional). Defaults to 250px.
+     * @property {number} [initialX] - Inilial window distance from left in px (optional).
+     * @property {number} [initialY] - Initial window distance from top in px (optional).
+     * @property {number} [buttonSize] - Size (width & height) of buttons (and title(bar) by proxy) (optional). Defaults to (height/10)px.
+     */
+
+    /**
+     * @param {WindowProperties} [properties] - Window properties (optional).
+     */
+    constructor(properties) {
+      /* Properties */
+      this.title = properties.title || "Default";
+      this.id = properties.id || "window" + Window.windows.length;
+      this.content = properties.content || "";
+      this.width = properties.width || 500;
+      this.height = properties.height || 250;
+      this.x = properties.initialX || (Window.windows.length + 1) * 30;
+      this.y = properties.initialY || (Window.windows.length + 1) * 30;
+      this.buttonSize =
+        properties.buttonSize || Math.floor(this.height / 10);
+
+      /* Variables */
+      this.zIndex = Window.getHighestZIndex() + 1;
+      this.dragging = false;
+      this.offsetX = 0;
+      this.offsetY = 0;
+
+      /* Binding */
+      this.onMouseUpEvent = this.onMouseUpEvent.bind(this);
+      this.onMouseDownEvent = this.onMouseDownEvent.bind(this);
+      this.onMouseMoveEvent = this.onMouseMoveEvent.bind(this);
+
+      this.createWindow();
+      this.registerEvents();
+
+      Window.windows.push(this);
+    }
+
+    createWindow() {
+      this.windowDiv = document.createElement("div");
+      this.titleDiv = document.createElement("div");
+      this.closeButton = document.createElement("button");
+      this.minButton = document.createElement("button");
+      this.titleText = document.createElement("p");
+      this.contentDiv = document.createElement("div");
+
+      /* --------------- Styles --------------- */
+      this.windowDiv.className = "window";
+      this.windowDiv.id = this.id;
+      this.windowDiv.style.position = "absolute";
+      this.windowDiv.style.background = "white";
+      this.windowDiv.style.boxShadow =
+        "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)";
+      this.windowDiv.style.border = "1px solid black";
+      this.windowDiv.style.transition =
+        "visibility 0s 0.1s, opacity 0.1s linear";
+      this.windowDiv.style.borderRadius = "5px";
+
+      this.titleDiv.className = "titleBar";
+      this.titleDiv.style.width = `${this.width}px`;
+      this.titleDiv.style.height = `${this.buttonSize}px`;
+      this.titleDiv.style.position = "absolute";
+      this.titleDiv.style.margin = "0";
+      this.titleDiv.style.padding = "0";
+      this.titleDiv.style.top = "0";
+      this.titleDiv.style.left = "0";
+      this.titleDiv.style.background = "rgba(5, 5, 5, 0.05)";
+      this.titleDiv.style.textAlign = "center";
+      this.titleDiv.style.cursor = "grab";
+
+      this.closeButton.className = "close";
+      this.closeButton.style.width = `${this.buttonSize}px`;
+      this.closeButton.style.height = `${this.buttonSize}px`;
+      this.closeButton.style.position = "absolute";
+      this.closeButton.style.right = "0";
+      this.closeButton.textContent = "X";
+      this.closeButton.style.border = "none";
+      this.closeButton.style.background = "none";
+      this.closeButton.style.cursor = "pointer";
+
+      this.minButton.className = "minimize";
+      this.minButton.style.width = `${this.buttonSize}px`;
+      this.minButton.style.height = `${this.buttonSize}px`;
+      this.minButton.style.position = "absolute";
+      this.minButton.style.right = `${this.buttonSize}px`;
+      this.minButton.textContent = "-";
+      this.minButton.style.border = "none";
+      this.minButton.style.background = "none";
+      this.minButton.style.cursor = "pointer";
+
+      this.titleText.className = "title";
+      this.titleText.style.margin = "0";
+      this.titleText.style.textSize = `${this.buttonSize - 8}px`;
+
+      this.contentDiv.className = "content";
+      this.contentDiv.style.position = "absolute";
+      this.contentDiv.style.top = `${this.buttonSize}px`;
+      this.contentDiv.style.left = "0";
+      this.contentDiv.style.margin = "2px";
+      /* --------------- Styles --------------- */
+
+      /* --------------- Classes --------------- */
+      document.styleSheets[0].insertRule(
+        ".hidden { opacity: 0; pointer-events: none; }",
+        Array.from(document.styleSheets[0].cssRules).findIndex(
+          (rule) => rule.selectorText === ".hidden"
+        ) === -1
+          ? document.styleSheets[0].cssRules.length
+          : null
+      );
+      /* --------------- Classes --------------- */
+
+      this.titleDiv.appendChild(this.closeButton);
+      this.titleDiv.appendChild(this.minButton);
+      this.titleDiv.appendChild(this.titleText);
+      this.windowDiv.appendChild(this.titleDiv);
+      this.windowDiv.appendChild(this.contentDiv);
+      document.body.appendChild(this.windowDiv);
+
+      const maxVertical = Math.floor(
+        window.innerHeight / this.windowDiv.offsetHeight
+      );
+      const maxHorizontal = Math.floor(
+        window.innerWidth / this.windowDiv.offsetWidth
+      );
+
+      this.resize(this.width, this.height);
+      this.move(this.x, this.y);
+      this.setZIndex(this.zIndex);
+      this.setTitle(this.title);
+      this.setContent(this.content);
+    }
+
+    registerEvents() {
+      this.closeButton.addEventListener("click", this.close.bind(this));
+      this.minButton.addEventListener("click", this.minimize.bind(this));
+      this.titleDiv.addEventListener("mousedown", this.onMouseDownEvent);
+      this.windowDiv.addEventListener("mousedown", this.focus.bind(this));
+      document.addEventListener("mousemove", this.onMouseMoveEvent);
+      document.addEventListener("mouseup", this.onMouseUpEvent);
+    }
+
+    onMouseDownEvent(event) {
+      if (this.dragging) return;
+      this.offsetX = event.clientX - this.windowDiv.offsetLeft;
+      this.offsetY = event.clientY - this.windowDiv.offsetTop;
+      this.dragging = true;
+    }
+
+    onMouseMoveEvent(event) {
+      event.preventDefault();
+      if (!this.dragging) return;
+      const ww = this.windowDiv.offsetWidth;
+      const wh = this.windowDiv.offsetHeight;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const mouseX = event.clientX;
+      const mouseY = event.clientY;
+      const x = Math.min(Math.max(mouseX - this.offsetX, 0), w - ww);
+      const y = Math.min(Math.max(mouseY - this.offsetY, 0), h - wh);
+      this.move(x, y);
+    }
+
+    onMouseUpEvent(event) {
+      if (!this.dragging) return;
+      this.dragging = false;
+    }
+
+    close() {
+      this.windowDiv.classList.add("hidden");
+      setTimeout(() => this.windowDiv.remove(), 1000);
+    }
+
+    minimize() {
+      this.windowDiv.classList.add("hidden");
+    }
+
+    maximize() {
+      this.windowDiv.classList.remove("hidden");
+    }
+
+    focus() {
+      this.selected = this;
+      if (this.zIndex >= Window.getHighestZIndex()) return;
+      this.setZIndex(Window.getHighestZIndex() + 1);
+    }
+
+    resize(width = 500, height = 250) {
+      this.width = width;
+      this.height = height;
+      this.windowDiv.style.width = `${width}px`;
+      this.windowDiv.style.height = `${height}px`;
+    }
+
+    move(left, top) {
+      this.x = left;
+      this.y = top;
+      this.windowDiv.style.left = `${left}px`;
+      this.windowDiv.style.top = `${top}px`;
+    }
+
+    setZIndex(zindex) {
+      this.zIndex = zindex;
+      this.windowDiv.style.zIndex = `${this.zIndex}`;
+      this.contentDiv.style.zIndex = `${this.zIndex}`;
+    }
+
+    setTitle(title) {
+      this.title = title;
+      this.titleText.textContent = this.title;
+    }
+
+    setContent(html) {
+      this.content = html;
+      this.contentDiv.innerHTML = this.content;
+    }
+
+    /* Statics */
+    static windows = [];
+    static selected = null;
+
+    static getHighestZIndex() {
+      return Math.max(
+        Math.max(
+          ...Array.from(document.querySelectorAll("body *"))
+            .map((e) =>
+              window.getComputedStyle(e, null).getPropertyValue("z-index")
+            )
+            .filter((e) => e !== null && e !== "auto")
+        ),
+        1
+      );
+    }
+    static getLowestZIndex() {
+      return Math.max(
+        Math.min(
+          ...Array.from(document.querySelectorAll("body *"))
+            .map((e) =>
+              window.getComputedStyle(e, null).getPropertyValue("z-index")
+            )
+            .filter((e) => e !== null && e !== "auto")
+        ),
+        1
+      );
+    }
+  }
